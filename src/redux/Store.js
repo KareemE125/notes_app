@@ -1,6 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { enableMapSet } from "immer";
 import { notesReducer } from "./NotesSlice";
 
+// To enable using Maps and Sets in Redux
+enableMapSet();
 
 let store = configureStore({
     reducer:{ 

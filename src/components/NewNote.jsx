@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { notesActions } from '../redux/NotesSlice';
 import Note from '../models/Note';
@@ -7,8 +8,7 @@ import CreatableSelect from 'react-select/creatable';
 import '../css/NewNoteStyle.css'
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function NewNote() 
-{
+export default function NewNote() {
   const notes = useSelector((state) => state.notes);
   // dispatch returns the action of the called action creator (the implemented functions the the slice)
   const dispatch = useDispatch();
@@ -18,23 +18,19 @@ export default function NewNote()
   const inputTags = useRef();
   const inputBody = useRef();
 
-  
-  let tagOptions = useMemo(()=>{
-    return [...notes.tags.values()].map((val)=>{
-              return { value: val, label: val, color: '#000000' }
-            });
-  },[])
 
-  
-  
+  let tagOptions = useMemo(() => {
+    return [...notes.tags.values()].map((val) => {
+      return { value: val, label: val, color: '#000000' }
+    });
+  }, [])
 
-  function sumbitForm(event) 
-  {
+  function sumbitForm(event) {
     event.preventDefault();
 
     const newNote = new Note(
       inputTitle.current.value,
-      inputTags.current.state.ariaSelection?.value.map(option => option.value),
+      inputTags.current.getValue().map(option => option.value),
       inputBody.current.value,
     )
 
@@ -43,15 +39,17 @@ export default function NewNote()
   }
 
 
-  return <section id='new-note' className='container py-5'>
-    <h2 className='mb-4'>Create New Note</h2>
+  return <main id='new-note' className='container'>
+    <nav className='w-100 shadow-lg position-fixed top-0 start-0 bg-dark text-primary px-2 px-sm-5 py-2 d-flex justify-content-between align-items-center'>
+      <h1 className='h2'>Create Note</h1>
+    </nav>
 
     <form className="row" onSubmit={sumbitForm}>
       <div className='mb-3 col-lg-6'>
         <input ref={inputTitle} className='input form-control' type="text" placeholder='Title' required />
       </div>
       <div className='mb-3 col-lg-6'>
-        <CreatableSelect options={tagOptions} ref={inputTags} isMulti components={{ DropdownIndicator: false }} placeholder={'Tags #'} />
+        <CreatableSelect  ref={inputTags} className='text-black' options={tagOptions} isMulti components={{ DropdownIndicator: false }} placeholder={'Tags #'} />
       </div>
       <div className='mb-3 col-lg-12'>
         <textarea ref={inputBody} className='form-control mb-3' cols="30" rows="10" placeholder='Body...'></textarea>
@@ -64,5 +62,5 @@ export default function NewNote()
       </div>
     </form>
 
-  </section>
+  </main>
 }

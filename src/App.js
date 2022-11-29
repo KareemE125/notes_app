@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import store from './redux/Store';
 
 import Home from './components/Home';
-import About from './components/About';
+import EditNote from './components/EditNote';
 
 import './App.css';
 import NewNote from './components/NewNote';
@@ -11,7 +11,7 @@ import NewNote from './components/NewNote';
 const APP_ROUTER = createBrowserRouter([
   {path: '/', element: <Home/>},
   {path: '/newnote', element: <NewNote/>},
-  {path: '/about', element: <About/>},
+  {path: '/edit/:index', element: <EditNote/>},
 ]);
 
 function App() 
